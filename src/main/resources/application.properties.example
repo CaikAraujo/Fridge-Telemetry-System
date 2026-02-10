@@ -1,0 +1,23 @@
+# Name
+spring.application.name=FridgeTelemetrySystem
+
+# Connection with the DB
+spring.datasource.url=jdbc:mysql://localhost:3306/telemetry.db?createDatabaseIfNotExist=true
+spring.datasource.username=root
+spring.datasource.password= password
+
+# Driver and Dialect
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
+
+# Table Creation
+spring.jpa.hibernate.ddl-auto=update
+# Logs para ver as queries no console
+spring.jpa.show-sql=true
+
+spring.mail.host=sandbox.smtp.mailtrap.io
+spring.mail.port=2525
+spring.mail.username= username
+spring.mail.password= password
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
