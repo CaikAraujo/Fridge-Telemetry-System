@@ -17,7 +17,7 @@ The core objective was to eliminate manual processes and ensure the accuracy of 
 I implemented **Spring Data JPA** with **MySQL** to manage temperature readings efficiently.
 
 > **Configuration Structure:**
-> ![Database Configuration](images/DataBaseConfig.png)
+> ![Database Configuration](images/DatabaseConfig.png)
 
 ### 2. Orchestration & Scheduling
 The "heart" of the system is the `ReportOrchestrator`, which utilizes `@Scheduled` with **Cron** expressions to trigger the end-of-day process exactly at 23:58.
