@@ -37,10 +37,19 @@ Integrated **Jakarta Mail** with **Mailtrap** to securely validate email deliver
 > **Inbox Notification:**
 > ![Email Notification](images/EmailNotification.png)
 
+### 5. Resiliency & Error Handling 🛡️
+To ensure system stability, I implemented a centralized exception handling mechanism using **@RestControllerAdvice** and a custom **Enum-based Error Catalog** (`TmErrorCode`).
+
+* **Atomic Transactions**: Critical operations use `@Transactional` to guarantee data integrity—either everything is saved, or nothing is.
+* **User-Friendly Responses**: The API returns standardized JSON error responses (e.g., `422 Unprocessable Entity` for invalid sensor data) instead of raw stack traces.
+* **Fail-Safe Orchestration**: The reporting system handles network failures gracefully using custom exceptions, ensuring data is never lost during delivery outages.
+
 ---
 
 ## 🛠️ Tech Stack
 * **Java 21** & **Spring Boot 3**.
+* **Spring Validation** for data integrity.
+* **Lombok** to reduce boilerplate code and logging.
 * **Maven** for dependency management.
 * **OpenPDF** for document manipulation.
 * **Mailtrap** for SMTP testing.
@@ -50,9 +59,10 @@ Integrated **Jakarta Mail** with **Mailtrap** to securely validate email deliver
 ## 🔮 Roadmap (Future Updates)
 The software is designed to evolve. Next steps include:
 
-* **Custom Exceptions**: Implementing a business exception hierarchy (e.g., `ReportDeliveryException`) for professional error handling.
+* ✅ **Custom Exceptions**: Implemented a robust business exception hierarchy (`TelemetryException`) with detailed error codes.
 * **Dashboards**: Implementing a Next.js interface for real-time visualization beyond the PDF.
 * **Security**: Adding JWT authentication for the collection API.
+* **Retry Mechanism**: Improving the scheduler to automatically retry failed email deliveries based on the "D-1" logic.
 
 ---
 

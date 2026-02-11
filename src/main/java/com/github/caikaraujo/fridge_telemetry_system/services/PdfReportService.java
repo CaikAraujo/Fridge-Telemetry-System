@@ -1,5 +1,7 @@
 package com.github.caikaraujo.fridge_telemetry_system.services;
 
+import com.github.caikaraujo.fridge_telemetry_system.enums.TmErrorCode;
+import com.github.caikaraujo.fridge_telemetry_system.exceptions.TelemetryException;
 import com.github.caikaraujo.fridge_telemetry_system.model.DailySummary;
 import com.github.caikaraujo.fridge_telemetry_system.model.Temperature;
 import com.github.caikaraujo.fridge_telemetry_system.utils.DateUtils;
@@ -16,33 +18,39 @@ import java.util.List;
 @Service
 public class PdfReportService {
 
-    public byte[] generateDailyReport(List<Temperature> temperatures, DailySummary summary) throws DocumentException {
+    public byte[] generateDailyReport(List<Temperature> temperatures, DailySummary summary){
 
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
-        Document document = new Document();
-        PdfWriter.getInstance(document, outputStream);
+            Document document = new Document();
+            PdfWriter.getInstance(document, outputStream);
 
-        document.open();
-        document.add(new Paragraph("Telemetry Report - VF FROID"));
+            document.open();
+            document.add(new Paragraph("Telemetry Report - VF FROID"));
 
-        document.add(new Paragraph("Average Temperature: " + String.format("%.2f", summary.getAvaregeTemperature())));
-        document.add(new Paragraph("Max Temperature: " + summary.getMaxTemperature()));
-        document.add(new Paragraph("Min Temperature: " + summary.getMinTemperature()));
+            document.add(new Paragraph("Average Temperature: " + String.format("%.2f", summary.getAvaregeTemperature())));
+            document.add(new Paragraph("Max Temperature: " + summary.getMaxTemperature()));
+            document.add(new Paragraph("Min Temperature: " + summary.getMinTemperature()));
 
-        PdfPTable table = new PdfPTable(2);
-        table.addCell("Date/Time");
-        table.addCell("Temperature");
+            PdfPTable table = new PdfPTable(2);
+            table.addCell("Date/Time");
+            table.addCell("Temperature");
 
-        for(Temperature temperature : temperatures){
-            String fomatedDate = DateUtils.fomatLocalDateTime(temperature.getDatestamp());
-            table.addCell(fomatedDate);
-            table.addCell(temperature.getValue().toString());
+            for(Temperature temperature : temperatures){
+                String fomatedDate = DateUtils.fomatLocalDateTime(temperature.getDatestamp());
+                table.addCell(fomatedDate);
+                table.addCell(temperature.getValue().toString());
+            }
+            document.add(table);
+
+            document.close();
+
+            return outputStream.toByteArray();
+        }catch (DocumentException ex){
+            throw new TelemetryException(TmErrorCode.GENERIC_ERROR);
         }
-        document.add(table);
 
-        document.close();
 
-        return outputStream.toByteArray();
     }
 }

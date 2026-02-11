@@ -4,13 +4,16 @@ import com.github.caikaraujo.fridge_telemetry_system.model.Temperature;
 import com.github.caikaraujo.fridge_telemetry_system.utils.DateUtils;
 import com.lowagie.text.DocumentException;
 import jakarta.mail.MessagingException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ReportOrchestrator {
 
@@ -26,7 +29,7 @@ public class ReportOrchestrator {
     }
 
     @Scheduled(cron = "0 */5 * * * *")
-    public void executeEndOfDayProcess() throws DocumentException, MessagingException {
+    public void executeEndOfDayProcess(){
 
         DailySummary dailySummary = summary.saveDailySummary();
         List<Temperature> list = summary.getTemp();
